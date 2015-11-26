@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean progressComplete = true;
     ProgressDialog sProgressDialog;
-    String TAG = "ckt";
+    String TAG = "hcz";
     private static final int TASK_COMPLETE = 0;
     private static final int NOT_TASK_COMPLETE = 1;
 
@@ -43,11 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Log.i(TAG, "ckt sProgressDialog: " + sProgressDialog);
+        Log.i(TAG, "onCreate sProgressDialog: " + sProgressDialog);
         if (savedInstanceState != null) {
             progressComplete = savedInstanceState.getBoolean("progressComplete");
         }
-        Log.i(TAG, "ckt progressComplete: " + progressComplete);
 
     }
 
@@ -61,16 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public void onPostResume() {
         super.onPostResume();
         if (!progressComplete) {
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.sendEmptyMessage(NOT_TASK_COMPLETE);
-                }
-            }).start();
-
-//            mHandler.sendEmptyMessage(NOT_TASK_COMPLETE);
-//            showProgressDialog();
+            showProgressDialog();
         }
     }
 
@@ -78,53 +68,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("progressComplete", progressComplete);
-        Log.i(TAG, "ckt saved progressComplete: " + progressComplete);
     }
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            if (msg.what == NOT_TASK_COMPLETE) {
-                sProgressDialog.show();
-            }
             if (msg.what == TASK_COMPLETE) {
                 progressComplete = true;
-                Log.i(TAG, "ckt handler progressComplete: " + progressComplete);
-                Log.i(TAG, "ckt handler sProgressDialog: " + sProgressDialog);
+                Log.i(TAG, "handler sProgressDialog: " + sProgressDialog);
                 dismissDialog();
             }
         }
     };
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            mHandler.sendEmptyMessage(TASK_COMPLETE);
-        }
-    };
-    Thread thread = new Thread(runnable);
 
     public void startProgress() {
         showProgressDialog();
-        thread.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "run sProgressDialog: " + sProgressDialog);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "sendEmptyMessage: " + sProgressDialog);
+                mHandler.sendEmptyMessage(TASK_COMPLETE);
+            }
+        }).start();
     }
 
     public void showProgressDialog() {
         sProgressDialog = new ProgressDialog(this);
         sProgressDialog.setIndeterminate(true);
         sProgressDialog.setMessage("please_wait");
-        sProgressDialog.setCancelable(false);
+        sProgressDialog.setCancelable(true);
         sProgressDialog.show();
-        Log.i(TAG, "ckt showProgressDialog:" + sProgressDialog);
+        Log.i(TAG, "showProgressDialog:" + sProgressDialog);
         progressComplete = false;
     }
 
     private void dismissDialog() {
-        Log.i(TAG, "ckt dismissDialog:" + sProgressDialog);
+        Log.i(TAG, "dismissDialog:" + sProgressDialog);
         if (sProgressDialog != null) {
             sProgressDialog.dismiss();
         }
