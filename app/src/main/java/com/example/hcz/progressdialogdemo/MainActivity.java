@@ -1,6 +1,9 @@
 package com.example.hcz.progressdialogdemo;
 
 import android.app.ProgressDialog;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -8,11 +11,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-
 public class MainActivity extends AppCompatActivity {
 
     boolean progressComplete = true;
@@ -50,6 +52,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * play sound
+     */
+    private SoundPool mSoundPool;
+    private int mRefocusSound;
+    private static final String NOTI_MUSIC_PATH = "/system/media/audio/notifications/pixiedust.ogg";
+
+    public void playSound(View view){
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+        mRefocusSound = mSoundPool.load(NOTI_MUSIC_PATH, 1);
+        mSoundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool arg0, int arg1, int arg2) {
+                mSoundPool.play(mRefocusSound, 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -81,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * show ProgressDialog
+     */
     public void startProgress() {
         showProgressDialog();
         new Thread(new Runnable() {
@@ -88,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Log.i(TAG, "run sProgressDialog: " + sProgressDialog);
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
