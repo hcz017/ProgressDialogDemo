@@ -1,6 +1,7 @@
 package com.example.hcz.progressdialogdemo;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean progressComplete = true;
     ProgressDialog sProgressDialog;
-    String TAG = "hcz";
+    private static final String TAG = "MainActivity";
     private static final int TASK_COMPLETE = 0;
     private static final int NOT_TASK_COMPLETE = 1;
 
@@ -158,5 +159,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void TestNotificationExtra(View view){
+        Intent intent = new Intent(this, MyNotification.class);
+        startActivity(intent);
     }
 }

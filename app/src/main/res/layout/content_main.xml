@@ -74,4 +74,11 @@
             android:paddingLeft="15dp" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_test_noti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="TestNotificationExtra"
+        android:text="@string/test_noti_extra" />
+
 </LinearLayout>
