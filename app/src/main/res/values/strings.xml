@@ -9,4 +9,6 @@
     <string name="input_extra">input extra</string>
     <string name="send_broadcast">send broadcast</string>
     <string name="test_noti_extra">test notification extra</string>
+    <string name="operator_name_data_sub">OperatorName(data sub)</string>
+    <string name="operator_name">operator name</string>
 </resources>
