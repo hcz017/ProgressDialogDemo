@@ -1,7 +1,9 @@
 package com.example.hcz.progressdialogdemo;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telecom.TelecomManager;
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private int mRefocusSound;
     private static final String NOTI_MUSIC_PATH = "/system/media/audio/notifications/pixiedust.ogg";
 
-    public void playSound(View view){
+    public void playSound(View view) {
         mSoundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
         mRefocusSound = mSoundPool.load(NOTI_MUSIC_PATH, 1);
         mSoundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void TestNotificationExtra(View view){
+    public void TestNotificationExtra(View view) {
         Intent intent = new Intent(this, MyNotification.class);
         startActivity(intent);
     }
@@ -209,7 +212,21 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = Uri.fromParts("tel", phoneNumber, null);//Uri 主要是号码
             Bundle extras = new Bundle();
             extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true);//默认开扬声器
-            telecomManager.placeCall(uri, extras);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 123);
+            } else {
+                telecomManager.placeCall(uri, extras);
+            }
         }
     }
 }
