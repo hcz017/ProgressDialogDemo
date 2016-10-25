@@ -18,11 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,5 +95,27 @@
             android:id="@+id/operator_name"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_phone_number"
+            android:layout_width="0dp"
+            android:inputType="phone"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/phone_number" />
+
+        <Button
+            android:id="@+id/dial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="dial"
+            android:text="@string/dial" />
+    </LinearLayout>
+
 
 </LinearLayout>

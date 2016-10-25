@@ -5,18 +5,23 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.reflect.InvocationTargetException;
@@ -25,8 +30,9 @@ import java.lang.reflect.Method;
 public class MainActivity extends AppCompatActivity {
 
     boolean progressComplete = true;
-    ProgressDialog sProgressDialog;
-    TextView tvOpName;
+    private ProgressDialog sProgressDialog;
+    private TextView tvOpName;
+    private EditText edtPhoneNumber;
     private static final String TAG = "MainActivity";
     private static final int TASK_COMPLETE = 0;
     private static final int NOT_TASK_COMPLETE = 1;
@@ -37,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         tvOpName = (TextView) findViewById(R.id.operator_name);
         Button btn = (Button) findViewById(R.id.button);
+        edtPhoneNumber = (EditText) findViewById(R.id.edt_phone_number);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,5 +200,16 @@ public class MainActivity extends AppCompatActivity {
         Object operatorName = getNetworkOperatorName.invoke(tm, defaultDataSubId);
         tvOpName.setText((String) operatorName);
         Log.i(TAG, "default data sub network operator name : " + operatorName);
+    }
+
+    public void dial(View view) {
+        if (!TextUtils.isEmpty(edtPhoneNumber.getText())) {
+            String phoneNumber = edtPhoneNumber.getText().toString();
+            TelecomManager telecomManager = (TelecomManager) getSystemService(TELECOM_SERVICE);
+            Uri uri = Uri.fromParts("tel", phoneNumber, null);//Uri 主要是号码
+            Bundle extras = new Bundle();
+            extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true);//默认开扬声器
+            telecomManager.placeCall(uri, extras);
+        }
     }
 }

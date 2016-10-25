@@ -11,4 +11,6 @@
     <string name="test_noti_extra">test notification extra</string>
     <string name="operator_name_data_sub">OperatorName(data sub)</string>
     <string name="operator_name">operator name</string>
+    <string name="phone_number">phone number</string>
+    <string name="dial">dial</string>
 </resources>
