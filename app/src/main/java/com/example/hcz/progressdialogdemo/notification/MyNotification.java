@@ -1,4 +1,4 @@
-package com.example.hcz.progressdialogdemo;
+package com.example.hcz.progressdialogdemo.notification;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.hcz.progressdialogdemo.R;
 
 public class MyNotification extends AppCompatActivity {
 

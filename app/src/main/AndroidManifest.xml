@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyNotification">
+        <activity android:name=".notification.MyNotification">
         </activity>
-        <activity android:name=".SecondActivity">
+        <activity android:name=".notification.SecondActivity">
         </activity>
         <service
             android:name=".QuickSettingService"
@@ -32,6 +32,8 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <activity android:name=".MyFragmentActivity"/>
+        <activity android:name=".MyFragmentActivityB"/>
     </application>
 
 </manifest>

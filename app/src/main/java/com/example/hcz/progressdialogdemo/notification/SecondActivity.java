@@ -1,9 +1,11 @@
-package com.example.hcz.progressdialogdemo;
+package com.example.hcz.progressdialogdemo.notification;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.example.hcz.progressdialogdemo.R;
 
 public class SecondActivity extends AppCompatActivity {
     public String INTENT_EXTRA = "intentExtra";

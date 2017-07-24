@@ -12,12 +12,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.*;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +25,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.hcz.progressdialogdemo.notification.MyNotification;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         sProgressDialog.show();
         Log.i(TAG, "showProgressDialog:" + sProgressDialog);
         progressComplete = false;
+        Log.d(TAG, "showProgressDialog: " + getSupportActionBar());
     }
 
     private void dismissDialog() {
@@ -228,5 +230,9 @@ public class MainActivity extends AppCompatActivity {
                 telecomManager.placeCall(uri, extras);
             }
         }
+    }
+    public void fragmentTest(View view){
+        Intent intent = new Intent(this, MyFragmentActivityB.class);
+        startActivity(intent);
     }
 }

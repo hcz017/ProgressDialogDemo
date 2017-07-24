@@ -13,4 +13,6 @@
     <string name="operator_name">operator name</string>
     <string name="phone_number">phone number</string>
     <string name="dial">dial</string>
+    <string name="fragment_test">fragment test</string>
+    <string name="start">start</string>
 </resources>
