@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.hcz.progressdialogdemo.MyFragmentActivity;
 import com.example.hcz.progressdialogdemo.R;
 
 public class DirectChileFragmentA extends ParentFragment {
@@ -18,7 +17,7 @@ public class DirectChileFragmentA extends ParentFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_child, container, false);
         TextView tvChildName = (TextView) parentView.findViewById(R.id.child_name);
-        tvChildName.setText("Child_A");
+        tvChildName.setText(getString(R.string.child_a));
         return parentView;
     }
 

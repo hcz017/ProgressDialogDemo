@@ -15,4 +15,16 @@
     <string name="dial">dial</string>
     <string name="fragment_test">fragment test</string>
     <string name="start">start</string>
+    <string name="b_child">android.app.ActionBar actionBar = getActivity().getActionBar();\n
+        if (actionBar != null) {\n
+            actionBar.setDisplayHomeAsUpEnabled(true);\n
+            actionBar.setHomeButtonEnabled(true);\n
+        }\n
+        setHasOptionsMenu(true);</string>
+    <string name="child_a">android.app.ActionBar actionBar = getActivity().getActionBar();\n
+        if (actionBar != null) {\n
+            actionBar.setDisplayHomeAsUpEnabled(true);\n
+            actionBar.setHomeButtonEnabled(true);\n
+        }\n
+        //setHasOptionsMenu(true); // without this back arrow not work</string>
 </resources>
