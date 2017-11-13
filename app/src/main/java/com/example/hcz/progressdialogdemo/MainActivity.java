@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.*;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telecom.TelecomManager;
@@ -24,7 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hcz.progressdialogdemo.notification.MyNotification;
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog sProgressDialog;
     private TextView tvOpName;
     private EditText edtPhoneNumber;
+    private RadioGroup mRadioGroup;
     private static final String TAG = "MainActivity";
     private static final int TASK_COMPLETE = 0;
     private static final int NOT_TASK_COMPLETE = 1;
@@ -71,7 +75,64 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             progressComplete = savedInstanceState.getBoolean("progressComplete");
         }
+        Button rbBtn = (Button) findViewById(R.id.btn_show_radio);
+        rbBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRadioButtons();
+            }
+        });
 
+        findViewById(R.id.btn_hide_radio).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mRadioGroup != null) {
+                    mRadioGroup.removeAllViews();
+                }
+            }
+        });
+    }
+
+    private void showRadioButtons() {
+        // prepare view
+        mRadioGroup = (RadioGroup) findViewById(R.id.sim_cards);
+        mRadioGroup.removeAllViews();
+        int activeSimCount = 2;
+        if (activeSimCount > 1) {
+            mRadioGroup.setVisibility(View.VISIBLE);
+            mRadioGroup.setOnCheckedChangeListener(null);
+            for (int slotId = 0; slotId < activeSimCount; slotId++) {
+                String carrierName = getCarrierName(slotId);
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(getString(R.string.use_data, carrierName));
+                mRadioGroup.addView(radioButton, RadioGroup.LayoutParams.MATCH_PARENT,
+                        RadioGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            // check default data slot
+//            int defaultDataSubId = SubscriptionManager.getDefaultDataSubId();
+//            int defaultDataSlotId = SubscriptionManager.getSlotId(defaultDataSubId);
+            RadioButton radioButton = (RadioButton) mRadioGroup.getChildAt(1);
+            radioButton.setChecked(true);
+
+            // set checkListener
+            mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    for (int slotId = 0; slotId < 2; slotId++) {
+                        if ((mRadioGroup.getChildAt(slotId).getId() == checkedId)) {
+                            Log.d(TAG, "onCheckedChanged: slotId: " + slotId);
+                            Toast.makeText(MainActivity.this, "check " + slotId, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private String getCarrierName(int slotId) {
+        String[] carrierNames= {"CMCC","CU"};
+        return carrierNames[slotId];
     }
 
     /**

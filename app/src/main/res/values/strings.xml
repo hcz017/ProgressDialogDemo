@@ -27,4 +27,7 @@
             actionBar.setHomeButtonEnabled(true);\n
         }\n
         //setHasOptionsMenu(true); // without this back arrow not work</string>
+    <string name="showRadioBtns">show radio buttons</string>
+    <string name="hideRadioBtns">hide radio buttons</string>
+    <string name="use_data">使用 %s 数据</string>
 </resources>
