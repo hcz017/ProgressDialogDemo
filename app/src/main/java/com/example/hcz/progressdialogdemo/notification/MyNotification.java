@@ -2,14 +2,19 @@ package com.example.hcz.progressdialogdemo.notification;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.hcz.progressdialogdemo.R;
 
@@ -21,6 +26,24 @@ public class MyNotification extends AppCompatActivity {
     // Gets an instance of the NotificationManager service
     public NotificationManager mNotifyMgr;
     private static final String TAG = "MyNotification";
+    TelephonyManager mTelephonyManager;
+    MyPhoneStateListener mPhoneStateListener;
+    int mSignalStrength = 0;
+    private TextView mSignalStrengthText;
+
+    class MyPhoneStateListener extends PhoneStateListener {
+
+        @Override
+        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+            super.onSignalStrengthsChanged(signalStrength);
+            mSignalStrength = signalStrength.getGsmSignalStrength();
+            int mSignalStrengthDBm = (2 * mSignalStrength) - 113; // -> dBm
+            Log.d(TAG, "onSignalStrengthsChanged mSignalStrength: " + mSignalStrength);
+            Log.d(TAG, "onSignalStrengthsChanged mSignalStrengthDBm: " + mSignalStrengthDBm);
+            Log.d(TAG, "onSignalStrengthsChanged: signal level: " + signalStrength.getLevel());
+//            mSignalStrengthText.setText(mSignalStrengthDBm);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +51,11 @@ public class MyNotification extends AppCompatActivity {
         setContentView(R.layout.activity_test_noti);
         mEdtTargetAC = (EditText) findViewById(R.id.edt_target_AC);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mSignalStrengthText = (TextView)findViewById(R.id.signalStrength);
+        mPhoneStateListener = new MyPhoneStateListener();
+        mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        mPhoneStateListener = new MyPhoneStateListener();
+        mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
     public void sendNotification(View view) {
