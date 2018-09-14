@@ -8,6 +8,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -255,7 +256,12 @@ public class MainActivity extends AppCompatActivity {
         // get defaultDataSubId  @hide
         Class subscriptionManager;
         subscriptionManager = Class.forName("android.telephony.SubscriptionManager");
-        Method getDefaultDataSubId = subscriptionManager.getMethod("getDefaultDataSubId");
+        Method getDefaultDataSubId;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getDefaultDataSubId = subscriptionManager.getMethod("getDefaultDataSubscriptionId");
+        } else {
+            getDefaultDataSubId = subscriptionManager.getMethod("getDefaultDataSubId");
+        }
         Object defaultDataSubId = getDefaultDataSubId.invoke(null);
         // to get getNetworkOperatorName(subId), @hide
         TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
