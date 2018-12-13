@@ -31,7 +31,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hcz.progressdialogdemo.notification.MyNotification;
+import com.example.hcz.progressdialogdemo.utils.ImageUtils;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -92,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        String inputPath = "/sdcard/Download/raw.after.nv21";
+        String outputPath = "/sdcard/Download/raw.after.nv21.jpg";
+        try {
+            ImageUtils.convertYUV2Jpeg(inputPath, outputPath, 2592, 1944);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showRadioButtons() {
